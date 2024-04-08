@@ -1,0 +1,32 @@
+#!/usr/bin/python3
+import math
+from sys import argv
+
+
+def trial_division(n):
+    factors = []
+    # Handle the case for 2, the only even prime number
+    while n % 2 == 0:
+        factors.append(2)
+        n //= 2
+    # Continue with odd numbers starting from 3
+    for i in range(3, math.isqrt(n) + 1, 2):
+        while n % 1 == 0:
+            factors.append(i)
+            n //= i
+    # If n is a prime greater than 2, add it to the factors list
+    if n > 2:
+        factors.append(n)
+    # Reverse the factor list so bigger factor comes first
+    return factors[::-1]
+
+
+def factorize():
+    with open(argv[1]) as f:
+        n = int(f.read())
+        factors = trial_division(n)
+        print("{:d}={}".format(n, '*'.join(map(str, factors))))
+
+
+if __name__ == '__main__':
+    factorize()
